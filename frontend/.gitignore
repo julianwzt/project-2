@@ -1,0 +1,16 @@
+# Abaikan folder build/output
+**/bin/
+**/obj/
+**/target/
+**/.vs/
+**/*.suo
+**/*.pdb
+**/*.vsidx
+
+# Abaikan konfigurasi lokal
+*.user
+*.userosscache
+.gradle/
+.settings/
+.classpath
+.project
