@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-init
+data:
+  init.sql: |
+    DROP TABLE IF EXISTS public.mahasiswa;
+    DROP TABLE IF EXISTS public.jurusan;
+
+    CREATE TABLE public.jurusan (
+        id_jurusan SERIAL PRIMARY KEY,
+        nama_jurusan VARCHAR(255) NOT NULL,
+        fakultas VARCHAR(255) NOT NULL,
+        jenjang VARCHAR(50) NOT NULL
+    );
+
+    CREATE TABLE public.mahasiswa (
+        id SERIAL PRIMARY KEY,
+        nama VARCHAR(255) NOT NULL,
+        umur INT NOT NULL,
+        nim VARCHAR(50) NOT NULL UNIQUE,
+        tgl_lahir DATE NOT NULL,
+        alamat TEXT,
+        id_jurusan INT,
+        CONSTRAINT fk_mahasiswa_jurusan
+        FOREIGN KEY(id_jurusan) 
+        REFERENCES public.jurusan(id_jurusan)
+        ON DELETE SET NULL
+    );
+
+    INSERT INTO public.jurusan (nama_jurusan, fakultas, jenjang) VALUES
+    ('Teknik Informatika', 'Fakultas Informatika', 'S1'),
+    ('Sistem Informasi', 'Fakultas Informatika', 'S1'),
+    ('Teknik Elektro', 'Fakultas Teknik', 'S1'),
+    ('Teknik Mesin', 'Fakultas Teknik', 'S1'),
+    ('Desain Komunikasi Visual', 'Fakultas Industri Kreatif', 'D4'),
+    ('Manajemen', 'Fakultas Ekonomi dan Bisnis', 'S1'),
+    ('Akuntansi', 'Fakultas Ekonomi dan Bisnis', 'S1');
+
+    INSERT INTO public.mahasiswa (nama, umur, nim, tgl_lahir, alamat, id_jurusan) VALUES
+    ('Budi Santoso', 21, '13519001', '2003-05-10', 'Jl. Merdeka No. 10', 1);
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_USER
+              value: user
+            - name: POSTGRES_PASSWORD
+              value: password
+            - name: POSTGRES_DB
+              value: technicaltest
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d/
+      volumes:
+        - name: init-script
+          configMap:
+            name: postgres-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
