@@ -1,4 +1,4 @@
-# Aplikasi Manajemen Data Mahasiswa (Cloud-Ready)
+# Aplikasi Manajemen Data Mahasiswa
 
 Aplikasi manajemen data mahasiswa modern dengan arsitektur **Microservices** yang siap di *deploy* ke lingkungan Kubernetes.
 
