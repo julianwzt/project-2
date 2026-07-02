@@ -38,7 +38,7 @@ data:
     ('Akuntansi', 'Fakultas Ekonomi dan Bisnis', 'S1');
 
     INSERT INTO public.mahasiswa (nama, umur, nim, tgl_lahir, alamat, id_jurusan) VALUES
-    ('Budi Santoso', 21, '13519001', '2003-05-10', 'Jl. Merdeka No. 10', 1);
+    ('Budi Santoso', 21, '13519001', '2005-05-10', 'Jl. Merdeka No. 10', 1);
 ---
 apiVersion: apps/v1
 kind: Deployment
