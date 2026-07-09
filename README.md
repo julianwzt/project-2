@@ -1,4 +1,4 @@
-# Aplikasi Manajemen Data Mahasiswa (Cloud-Ready)
+# Aplikasi Manajemen Data Mahasiswa
 
 Aplikasi manajemen data mahasiswa modern dengan arsitektur **Microservices** yang siap di *deploy* ke lingkungan Kubernetes.
 
@@ -26,20 +26,24 @@ Untuk menjalankan aplikasi secara otomatis seperti standar industri:
 
 1. Pastikan Minikube sudah terinstall dan berjalan: `minikube start`.
 2. Arahkan Docker ke Minikube:
+
+jika pakai powershell
 ```bash
 minikube -p minikube docker-env | Invoke-Expression
-
 ```
+jika pakai Wsl:
 
+```bash
+eval $(minikube docker-env)
+```
 
 3. Build *image* backend di dalam Minikube:
 ```bash
 cd backend
 ./mvnw clean package -DskipTests
-docker build -t backend-api:1.0 .
+docker build -t backend-java:1.0 .
 
 ```
-
 
 4. Deploy ke klaster:
 ```bash
@@ -49,13 +53,11 @@ kubectl apply -f k8s/backend.yaml
 
 ```
 
-
 5. Buka pintu akses agar bisa diakses aplikasi VB.NET:
 ```bash
 kubectl port-forward svc/backend-service 8081:8081
 
 ```
-
 
 
 ### 2. Menjalankan Frontend
@@ -67,7 +69,7 @@ kubectl port-forward svc/backend-service 8081:8081
 ## Dokumentasi API
 
 Setelah backend berjalan, dokumentasi lengkap (Swagger) dapat diakses melalui:
-`http://localhost:8081/swagger-ui.html`
+`http://localhost:8081/swagger-ui/index.html`
 
 ## Struktur Database
 
