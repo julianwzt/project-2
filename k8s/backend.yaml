@@ -13,18 +13,18 @@ spec:
         app: backend
     spec:
       containers:
-      - name: backend
-        image: backend-api:1.0
-        imagePullPolicy: Never 
-        ports:
-        - containerPort: 8081
-        env:
-        - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://postgres-service:5432/technicaltest
-        - name: SPRING_DATASOURCE_USERNAME
-          value: user
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: password
+        - name: backend
+          image: backend-java:1.0
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres-service:5432/technicaltest
+            - name: SPRING_DATASOURCE_USERNAME
+              value: user
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: password
 ---
 apiVersion: v1
 kind: Service
